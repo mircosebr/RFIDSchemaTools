@@ -1,0 +1,29 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 10.00
+# Visual Studio 2008
+# SharpDevelop 3.2.0.5777
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RFIDKeybWedge", "RFIDKeybWedge\RFIDKeybWedge.csproj", "{966C9BF9-BF1D-4B8C-9DD1-3FBE90DCEAED}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LS8000CommsLib", "..\..\..\LS8000CommsLib\LS8000CommsLib.csproj", "{6B98B6BE-4B3D-4DB4-9473-A269304C6281}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{97CFFD9E-0C2C-4803-B8E9-E612E4600708}"
+	ProjectSection(SolutionItems) = postProject
+		..\..\..\..\Documents\projects\Smartcard_API\Smartcard Framework 2005.sln = ..\..\..\..\Documents\projects\Smartcard_API\Smartcard Framework 2005.sln
+	EndProjectSection
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|x86 = Debug|x86
+		Release|x86 = Release|x86
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{966C9BF9-BF1D-4B8C-9DD1-3FBE90DCEAED}.Debug|x86.Build.0 = Debug|x86
+		{966C9BF9-BF1D-4B8C-9DD1-3FBE90DCEAED}.Debug|x86.ActiveCfg = Debug|x86
+		{966C9BF9-BF1D-4B8C-9DD1-3FBE90DCEAED}.Release|x86.Build.0 = Release|x86
+		{966C9BF9-BF1D-4B8C-9DD1-3FBE90DCEAED}.Release|x86.ActiveCfg = Release|x86
+		{6B98B6BE-4B3D-4DB4-9473-A269304C6281}.Debug|x86.Build.0 = Debug|x86
+		{6B98B6BE-4B3D-4DB4-9473-A269304C6281}.Debug|x86.ActiveCfg = Debug|x86
+		{6B98B6BE-4B3D-4DB4-9473-A269304C6281}.Release|x86.Build.0 = Release|x86
+		{6B98B6BE-4B3D-4DB4-9473-A269304C6281}.Release|x86.ActiveCfg = Release|x86
+	EndGlobalSection
+EndGlobal

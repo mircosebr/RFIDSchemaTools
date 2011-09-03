@@ -1,0 +1,5 @@
+C:\Users\Mart\LS8000CommsLib\obj\x86\Debug\ResolveAssemblyReference.cache
+C:\Users\Mart\LS8000CommsLib\bin\Debug\LS8000CommsLib.dll
+C:\Users\Mart\LS8000CommsLib\bin\Debug\LS8000CommsLib.pdb
+C:\Users\Mart\LS8000CommsLib\obj\x86\Debug\LS8000CommsLib.dll
+C:\Users\Mart\LS8000CommsLib\obj\x86\Debug\LS8000CommsLib.pdb
