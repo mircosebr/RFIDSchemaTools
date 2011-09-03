@@ -232,9 +232,13 @@ namespace RFIDKeybWedge
 			if(this.ConfigType.Text=="ARC122U"){
 				ACR122Reader ACRRead = new ACR122Reader();
 				
-				String[] foo = ACRRead.GetReaders();
+				String[] readers = ACRRead.GetReaders();
+				if(readers!=null){
+					foreach(string v in readers){
+						this.ConfigPCSCDevice.Items.Add(v);
+					}
+				}
 				
-				int bar = foo.Length;
 				/*
 				foreach(string v in ACRRead.GetReaders())
 				{
