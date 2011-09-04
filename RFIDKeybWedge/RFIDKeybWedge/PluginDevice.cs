@@ -17,7 +17,7 @@ namespace RFIDKeybWedge
 	{
 		string getName();
 		string[] devices();
-		bool connect();
+		bool connect(string device);
 		bool disconnect();
 		
 	}

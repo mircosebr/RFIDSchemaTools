@@ -12,6 +12,7 @@ using System.Drawing;
 using System.Threading;
 using System.Windows.Forms;
 using Microsoft.Win32;
+using RFIDKeybWedge.Devices;
 
 namespace RFIDKeybWedge
 {
@@ -24,7 +25,7 @@ namespace RFIDKeybWedge
 		public static frmSerial serialConfig;
 		private static ushort _icDev;
 		private MenuItem serialConfigItem, crlfConfig, connectItem, disconnectItem;
-		private static bool _connectedToReader = false;
+		private bool _connectedToReader = false;
 		private static long _baud = 9600;
 		private static string _key = "a0a1a2a3a4a5";
 		private static char _authmode = (char)0x60, _block = '8';
@@ -32,6 +33,8 @@ namespace RFIDKeybWedge
 		private static bool _abort = false;
 		
 		public static ReaderConfiguration readConfiguration;
+		private PluginDevice reader;
+		
 		//NotificationIcon notificationIcon;
 		
 		
@@ -39,8 +42,9 @@ namespace RFIDKeybWedge
 		public NotificationIcon()
 		{
 			readConfiguration = new ReaderConfiguration();
+			ACR122 acr122 = new ACR122();
 			
-			serialConfigItem = new MenuItem("Configure Serial Port",menuSerialConfigClick);
+			serialConfigItem = new MenuItem("Configure Reader",menuSerialConfigClick);
 			crlfConfig = new MenuItem("Send CR/LF",menuCRLFClick);
 			connectItem = new MenuItem("Connect to Reader",menuConnectClick);
 			disconnectItem = new MenuItem("Disconnect from Reader",menuDisconnectClick);
@@ -85,16 +89,19 @@ namespace RFIDKeybWedge
 				if (isFirstInstance) {
 					NotificationIcon notificationIcon = new NotificationIcon();
 					notificationIcon.notifyIcon.Visible = true;
-					getRegistryConfig();
+					//getRegistryConfig();
+					/*
 					if (NotificationIcon._serialPort == -1) {
 						notificationIcon.connectItem.Enabled = false;
 						notificationIcon.disconnectItem.Enabled = false;
 						serialConfig = new frmSerial();
 						serialConfig.Show();
-					}
-					else {
+					}*/
+					
+					//else {
+						
+					//	NotificationIcon.connectedToReader = NotificationIcon.connectReader();
 						/*
-						NotificationIcon.connectedToReader = NotificationIcon.connectReader();
 						if (NotificationIcon.connectedToReader) {
 							notificationIcon.connectItem.Enabled = false;
 							notificationIcon.disconnectItem.Enabled = true;
@@ -104,7 +111,7 @@ namespace RFIDKeybWedge
 							notificationIcon.disconnectItem.Enabled = false;
 						}
 						*/
-					}
+					//}
 					if (NotificationIcon._incCRLF) 
 						notificationIcon.crlfConfig.Checked = true;
 					NotificationIcon.mainProgram = new Thread(ReadCard);
@@ -130,7 +137,7 @@ namespace RFIDKeybWedge
 		
 		private void menuExitClick(object sender, EventArgs e)
 		{
-			NotificationIcon.setRegistryConfig();
+			//NotificationIcon.setRegistryConfig();
 			NotificationIcon._abort = true;
 			NotificationIcon.mainProgram.Abort();
 			Application.Exit();
@@ -163,10 +170,10 @@ namespace RFIDKeybWedge
 			}
 		}
 		private void menuConnectClick(object sender, EventArgs e) {
-			if ((!NotificationIcon.connectedToReader) && (_serialPort != -1)) {
+			if ((!connectedToReader) && (_serialPort != -1)) {
 				if (sender == connectItem) {
-					NotificationIcon.connectedToReader = NotificationIcon.connectReader();
-					if (NotificationIcon.connectedToReader) {
+					connectedToReader = connectReader();
+					if (connectedToReader) {
 						connectItem.Enabled = false;
 						disconnectItem.Enabled = true;
 					}
@@ -175,10 +182,10 @@ namespace RFIDKeybWedge
 		}
 		
 		private void menuDisconnectClick(object sender, EventArgs e) {
-			if (NotificationIcon.connectedToReader) {
+			if (connectedToReader) {
 				if (sender == disconnectItem) {
 					NotificationIcon.disconnectReader();
-					if (!NotificationIcon.connectedToReader) {
+					if (!connectedToReader) {
 						disconnectItem.Enabled = false;
 						connectItem.Enabled = true;
 					}
@@ -187,7 +194,7 @@ namespace RFIDKeybWedge
 		}
 		
 		#endregion
-		
+		/*
 		public static void getRegistryConfig() {
 			
 			int regSerialPort;
@@ -260,7 +267,8 @@ namespace RFIDKeybWedge
 			NotificationIcon._serialPort = regSerialPort;
 			NotificationIcon._incCRLF = regIncCRLF;
 		}
-	
+		*/
+	/*
 		public static void setRegistryConfig() {
 			
 			RegistryKey configStore = Registry.CurrentUser;
@@ -282,7 +290,24 @@ namespace RFIDKeybWedge
 				configStore = null;
 			}
 		}
-		public static bool connectReader() {
+		*/
+		public  bool connectReader() {
+			string type = readConfiguration.getString("type");
+			string device = readConfiguration.getString("device");
+			if(type == null || device == null)
+			{
+				return false;
+			}
+			ACR122 acr122 = new ACR122();
+			if(acr122.getName().CompareTo(type)==0)
+			{
+				this.reader = acr122;
+			}
+			if(reader!=null){
+				return reader.connect(device);
+			}
+			return false;
+			/*
 			if (_serialPort == -1)
 				return false;
 			int val = LS8000CommsLib.Comms.rf_init_com(_serialPort,NotificationIcon.baud);
@@ -292,9 +317,13 @@ namespace RFIDKeybWedge
 			else
 				MessageBox.Show("Failed to connect to reader on Com " + _serialPort, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
 				return false;
+			*/
 		}
 		
 		public static bool disconnectReader() {
+			return false;
+			//return this.reader==null;
+			/*
 			int val = LS8000CommsLib.Comms.rf_ClosePort();
 			if (val == 0) {
 				connectedToReader = false;
@@ -304,13 +333,15 @@ namespace RFIDKeybWedge
 				MessageBox.Show("Failed to disconnect from reader on Com " + _serialPort, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
 				return false;
 				}
+			*/
 		}
 		
 		private static void ReadCard() {
+		/*
 			char[] tempstore;
 			string temp2;
 			while (!NotificationIcon._abort) {
-				if (NotificationIcon.connectedToReader) {
+				if (connectedToReader) {
 					KeeleCard kc = new KeeleCard();
 					if(kc.ReadCard()) {
 						tempstore = kc.keeleCardNumber.Substring(15, 10).ToCharArray();
@@ -325,6 +356,7 @@ namespace RFIDKeybWedge
 					kc = null;
 				}
 			}
+			*/
 		}
 		
 		#region Variable Handlers
@@ -342,7 +374,7 @@ namespace RFIDKeybWedge
 			get { return _incCRLF; }
 			set { _incCRLF = value; }
 		}
-		public static bool connectedToReader {
+		public bool connectedToReader {
 			get { return _connectedToReader; }
 			set { _connectedToReader = value; }
 		}

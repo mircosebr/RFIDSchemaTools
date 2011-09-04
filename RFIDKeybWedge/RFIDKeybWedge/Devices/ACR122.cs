@@ -34,9 +34,10 @@ namespace RFIDKeybWedge.Devices
 			return this.iCard.ListReaders();
 		}
 		
-		public bool connect()
+		public bool connect(string device)
 		{
-			return false;
+			this.iCard.Connect(device,SHARE.Direct,PROTOCOL.T0orT1);
+			return true;
 		}
 		public bool disconnect()
 		{
