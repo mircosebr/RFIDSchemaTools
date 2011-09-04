@@ -30,12 +30,16 @@ namespace RFIDKeybWedge
 		private static char _authmode = (char)0x60, _block = '8';
 		private static Thread mainProgram;
 		private static bool _abort = false;
+		
+		public static ReaderConfiguration readConfiguration;
 		//NotificationIcon notificationIcon;
 		
 		
 		#region Initialize icon and menu
 		public NotificationIcon()
 		{
+			readConfiguration = new ReaderConfiguration();
+			
 			serialConfigItem = new MenuItem("Configure Serial Port",menuSerialConfigClick);
 			crlfConfig = new MenuItem("Send CR/LF",menuCRLFClick);
 			connectItem = new MenuItem("Connect to Reader",menuConnectClick);
@@ -89,6 +93,7 @@ namespace RFIDKeybWedge
 						serialConfig.Show();
 					}
 					else {
+						/*
 						NotificationIcon.connectedToReader = NotificationIcon.connectReader();
 						if (NotificationIcon.connectedToReader) {
 							notificationIcon.connectItem.Enabled = false;
@@ -98,6 +103,7 @@ namespace RFIDKeybWedge
 							notificationIcon.connectItem.Enabled = true;
 							notificationIcon.disconnectItem.Enabled = false;
 						}
+						*/
 					}
 					if (NotificationIcon._incCRLF) 
 						notificationIcon.crlfConfig.Checked = true;

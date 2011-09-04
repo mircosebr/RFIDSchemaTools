@@ -18,6 +18,8 @@ namespace RFIDKeybWedge
 		/// </summary>
 		private System.ComponentModel.IContainer components = null;
 		
+		private ReaderConfiguration readConfig;
+		
 		/// <summary>
 		/// Disposes resources used by the form.
 		/// </summary>
@@ -39,6 +41,8 @@ namespace RFIDKeybWedge
 		/// </summary>
 		private void InitializeComponent()
 		{
+			readConfig = NotificationIcon.readConfiguration;
+						
 			this.ConfigSerial = new System.Windows.Forms.ComboBox();
 			this.lblSerialPort = new System.Windows.Forms.Label();
 			this.btnOK = new System.Windows.Forms.Button();
@@ -239,12 +243,6 @@ namespace RFIDKeybWedge
 					}
 				}
 				
-				/*
-				foreach(string v in ACRRead.GetReaders())
-				{
-					this.ConfigPCSCDevice.Items.Add(v);
-				}
-				*/
 				this.ConfigPCSCDevice.Show();
 			}else{
 				this.ConfigPCSCDevice.Hide();
