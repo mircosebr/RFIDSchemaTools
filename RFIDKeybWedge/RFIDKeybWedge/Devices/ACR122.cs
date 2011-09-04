@@ -22,6 +22,7 @@ namespace RFIDKeybWedge.Devices
 		
 		public ACR122()
 		{
+			iCard = new CardNative();
 		}
 		
 		public string getName()

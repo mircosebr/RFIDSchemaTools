@@ -212,7 +212,8 @@ namespace RFIDKeybWedge
 		void Config_typeSelectedIndexChanged(object sender, EventArgs e)
 		{
 			ConfigDevice.Items.Clear();
-			if(sender.ToString().CompareTo(acr122.getName())==0)
+			
+			if(ConfigType.SelectedItem.ToString().CompareTo(acr122.getName())==0)
 			{
 				string[] devices = acr122.devices();
 				if(devices!=null){
