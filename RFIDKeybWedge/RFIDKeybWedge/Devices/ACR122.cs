@@ -6,6 +6,7 @@
  * 
  * To change this template use Tools | Options | Coding | Edit Standard Headers.
  */
+using GemCard;
 using System;
 
 namespace RFIDKeybWedge.Devices
@@ -15,17 +16,21 @@ namespace RFIDKeybWedge.Devices
 	/// </summary>
 	public class ACR122 : PluginDevice
 	{
+		private CardNative iCard;
+		private APDUCommand apduCmd;
+		private APDUResponse apduResp;
+		
 		public ACR122()
 		{
 		}
 		
 		public string getName()
 		{
-			return "ARC122";
+			return "ARC122U";
 		}
 		
 		public string[] devices(){
-			return null;
+			return this.iCard.ListReaders();
 		}
 		
 		public bool connect()

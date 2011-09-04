@@ -8,6 +8,7 @@
  */
  using System;
  using System.Windows.Forms;
+ using RFIDKeybWedge.Devices;
 
 namespace RFIDKeybWedge
 {
@@ -19,6 +20,7 @@ namespace RFIDKeybWedge
 		private System.ComponentModel.IContainer components = null;
 		
 		private ReaderConfiguration readConfig;
+		private ACR122 acr122;
 		
 		private System.Windows.Forms.Label lblConfigPCSCDevice;
 		private System.Windows.Forms.ComboBox ConfigPCSCDevice;
@@ -30,6 +32,7 @@ namespace RFIDKeybWedge
 		private System.Windows.Forms.Label lblSerialPort;
 		private System.Windows.Forms.Button btnOK;
 		private System.Windows.Forms.Button btnCancel;
+		
 		
 		/// <summary>
 		/// Disposes resources used by the form.
@@ -53,6 +56,7 @@ namespace RFIDKeybWedge
 		private void InitializeComponent()
 		{
 			readConfig = NotificationIcon.readConfiguration;
+			acr122 = new ACR122();
 			ConfigTypeLoad();
 			ConfigDeviceLoad();
 			BtnOKLoad();
@@ -69,6 +73,13 @@ namespace RFIDKeybWedge
 			this.ResumeLayout(false);
 		}
 		
+		private string[] ConfigTypes()
+		{
+			string[] types = new string[1];
+			types[0] = acr122.getName();
+			return types;
+		}
+		
 		private void ConfigTypeLoad()
 		{	
 			lblConfigType = new System.Windows.Forms.Label();
@@ -82,14 +93,12 @@ namespace RFIDKeybWedge
 			ConfigType = new System.Windows.Forms.ComboBox();
 			ConfigType.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
 			ConfigType.FormattingEnabled = true;
-			ConfigType.Items.AddRange(new object[] {
-									"ARC122U",
-									"Riotec LS8000"});
 			ConfigType.Location = new System.Drawing.Point(132, 10);
 			ConfigType.Name = "ConfigType";
 			ConfigType.Size = new System.Drawing.Size(121, 21);
 			ConfigType.TabIndex = 4;
 			ConfigType.SelectedIndexChanged += new System.EventHandler(this.Config_typeSelectedIndexChanged);
+			ConfigType.Items.AddRange(ConfigTypes());
 			
 			Controls.Add(lblConfigType);
 			Controls.Add(ConfigType);
@@ -202,7 +211,15 @@ namespace RFIDKeybWedge
 		
 		void Config_typeSelectedIndexChanged(object sender, EventArgs e)
 		{
-			//this.UpdateConfig();
+			ConfigDevice.Items.Clear();
+			if(sender.ToString().CompareTo(acr122.getName())==0)
+			{
+				string[] devices = acr122.devices();
+				if(devices!=null){
+					ConfigDevice.Items.AddRange(devices);
+				}
+			}
+			ConfigDevice.Enabled=ConfigDevice.Items.Count>0;
 		}
 		void UpdateConfig(){
 			if(this.ConfigType.Text=="Riotec LS8000"){
