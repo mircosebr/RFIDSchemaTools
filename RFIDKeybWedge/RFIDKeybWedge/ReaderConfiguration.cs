@@ -28,6 +28,7 @@ namespace RFIDKeybWedge
 				configStore.CreateSubKey("RFIDSchemaTools\\KeyWedge");
 			}
 			configStore = configStore.OpenSubKey("RFIDSchemaTools\\KeyWedge");
+		
 		}
 		
 		public Boolean keyExists(string key){

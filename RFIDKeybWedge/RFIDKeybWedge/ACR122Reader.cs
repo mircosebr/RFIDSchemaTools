@@ -27,6 +27,7 @@ namespace RFIDKeybWedge
 		}
 		
 		public string[] GetReaders(){
+			
 			return this.iCard.ListReaders();
 		}
 	}
