@@ -7,6 +7,7 @@
  * To change this template use Tools | Options | Coding | Edit Standard Headers.
  */
  using System;
+ using System.Collections;
  using System.Windows.Forms;
  using RFIDKeybWedge.Devices;
 
@@ -57,8 +58,9 @@ namespace RFIDKeybWedge
 		{
 			readConfig = NotificationIcon.readConfiguration;
 			acr122 = new ACR122();
-			ConfigTypeLoad();
 			ConfigDeviceLoad();
+			ConfigTypeLoad();
+
 			BtnOKLoad();
 			BtnCancelLoad();
 			
@@ -100,6 +102,16 @@ namespace RFIDKeybWedge
 			ConfigType.SelectedIndexChanged += new System.EventHandler(this.Config_typeSelectedIndexChanged);
 			ConfigType.Items.AddRange(ConfigTypes());
 			
+			IEnumerator configEnumerator = ConfigType.Items.GetEnumerator();
+			while(configEnumerator.MoveNext())
+			{
+				string value = readConfig.getString("type");
+				if(value!=null && value.CompareTo(configEnumerator.Current)==0)
+				{
+					ConfigType.SelectedItem = configEnumerator.Current;
+				}
+			}
+
 			Controls.Add(lblConfigType);
 			Controls.Add(ConfigType);
 		}
@@ -159,6 +171,15 @@ namespace RFIDKeybWedge
 		
 		void BtnOKClick(object sender, System.EventArgs e)
 		{
+			if(ConfigDevice.Enabled)
+			{
+				readConfig.setString("type",ConfigType.SelectedItem.ToString());
+				readConfig.setString("device",ConfigDevice.SelectedItem.ToString());
+				this.Close();
+				this.Dispose();
+			}else{
+				
+			}
 			/*** REMOVED ALPHA
 			if(ConfigType.Text == "ACR122")
 			{
@@ -175,8 +196,7 @@ namespace RFIDKeybWedge
 			}
 			NotificationIcon.setRegistryConfig();
 			END REMOVED ALPHA**/
-			this.Close();
-			this.Dispose();
+			
 			
 			/*
 			if (ConfigSerial.SelectedText != null) {
@@ -213,6 +233,7 @@ namespace RFIDKeybWedge
 		{
 			ConfigDevice.Items.Clear();
 			
+				
 			if(ConfigType.SelectedItem.ToString().CompareTo(acr122.getName())==0)
 			{
 				string[] devices = acr122.devices();
@@ -220,8 +241,20 @@ namespace RFIDKeybWedge
 					ConfigDevice.Items.AddRange(devices);
 				}
 			}
+			IEnumerator configEnumerator = ConfigDevice.Items.GetEnumerator();
+			while(configEnumerator.MoveNext())
+			{
+				string value = readConfig.getString("device");
+				if(value!=null && value.CompareTo(configEnumerator.Current)==0)
+				{
+					ConfigDevice.SelectedItem = configEnumerator.Current;
+				}
+			}
+
+			
 			ConfigDevice.Enabled=ConfigDevice.Items.Count>0;
 		}
+		/*
 		void UpdateConfig(){
 			if(this.ConfigType.Text=="Riotec LS8000"){
 				this.ConfigSerial.Show();
@@ -245,6 +278,7 @@ namespace RFIDKeybWedge
 			}		
 			
 		}
+		*/
 	}
 }
 

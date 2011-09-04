@@ -36,7 +36,12 @@ namespace RFIDKeybWedge
 		}
 		
 		public string getString(string key){
-			return configStore.GetValue(key).ToString();
+			object value = configStore.GetValue(key);
+			if(value==null)
+			{
+				return null;
+			}
+			return value.ToString();
 		}
 		
 		public void setString(string key, string value){
