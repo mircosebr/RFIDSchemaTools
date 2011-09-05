@@ -1,0 +1,4 @@
+C:\Users\Administrator\projects\RFIDSchemaTools\RFIDKeybWedge\RFIDKeybWedge\obj\Debug\ResolveAssemblyReference.cache
+C:\Users\Administrator\projects\RFIDSchemaTools\RFIDKeybWedge\RFIDKeybWedge\obj\Debug\RFIDKeybWedge.frmSerial.resources
+C:\Users\Administrator\projects\RFIDSchemaTools\RFIDKeybWedge\RFIDKeybWedge\obj\Debug\RFIDKeybWedge.NotificationIcon.resources
+C:\Users\Administrator\projects\RFIDSchemaTools\RFIDKeybWedge\RFIDKeybWedge\obj\Debug\RFIDKeybWedge.csproj.GenerateResource.Cache

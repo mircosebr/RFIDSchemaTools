@@ -54,7 +54,7 @@
   <ItemGroup>
     <Compile Include="ACR122Reader.cs" />
     <Compile Include="Devices\ACR122.cs" />
-    <Compile Include="KeeleCard_old.cs" />
+    <Compile Include="old_KeeleCard.cs" />
     <Compile Include="Form1.cs" />
     <Compile Include="Form1.Designer.cs">
       <DependentUpon>Form1.cs</DependentUpon>
@@ -74,6 +74,7 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Devices" />
+    <Folder Include="New Folder" />
     <Folder Include="Schema" />
   </ItemGroup>
 </Project>

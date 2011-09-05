@@ -89,6 +89,8 @@ namespace RFIDKeybWedge
 				if (isFirstInstance) {
 					NotificationIcon notificationIcon = new NotificationIcon();
 					notificationIcon.notifyIcon.Visible = true;
+					
+					notificationIcon.connectReader();
 					//getRegistryConfig();
 					/*
 					if (NotificationIcon._serialPort == -1) {
