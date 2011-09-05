@@ -10,6 +10,7 @@
  using System.Collections;
  using System.Windows.Forms;
  using RFIDKeybWedge.Devices;
+ using RFIDKeybWedge.Schema;
 
 namespace RFIDKeybWedge
 {
@@ -22,18 +23,21 @@ namespace RFIDKeybWedge
 		
 		private ReaderConfiguration readConfig;
 		private ACR122 acr122;
+		private KeeleCard keeleCard;
 		
-		private System.Windows.Forms.Label lblConfigPCSCDevice;
-		private System.Windows.Forms.ComboBox ConfigPCSCDevice;
 		private System.Windows.Forms.Label lblConfigType;
 		private System.Windows.Forms.Label lblConfigDevice;
+		private System.Windows.Forms.Label lblSchema;
 		private System.Windows.Forms.ComboBox ConfigDevice;
 		private System.Windows.Forms.ComboBox ConfigType;
-		private System.Windows.Forms.ComboBox ConfigSerial;
-		private System.Windows.Forms.Label lblSerialPort;
+		private System.Windows.Forms.ComboBox Schema;
 		private System.Windows.Forms.Button btnOK;
 		private System.Windows.Forms.Button btnCancel;
 		
+		//private System.Windows.Forms.Label lblConfigPCSCDevice;
+		//private System.Windows.Forms.ComboBox ConfigPCSCDevice;
+		//private System.Windows.Forms.ComboBox ConfigSerial;
+		//private System.Windows.Forms.Label lblSerialPort;
 		
 		/// <summary>
 		/// Disposes resources used by the form.
@@ -58,9 +62,10 @@ namespace RFIDKeybWedge
 		{
 			readConfig = NotificationIcon.readConfiguration;
 			acr122 = new ACR122();
+			keeleCard = new KeeleCard();
 			ConfigDeviceLoad();
 			ConfigTypeLoad();
-
+			SchemaLoad();
 			BtnOKLoad();
 			BtnCancelLoad();
 			
@@ -79,6 +84,13 @@ namespace RFIDKeybWedge
 		{
 			string[] types = new string[1];
 			types[0] = acr122.getName();
+			return types;
+		}
+		
+		private string[] SchemaTypes()
+		{
+			string[] types = new string[1];
+			types[0] = keeleCard.getName();
 			return types;
 		}
 		
@@ -140,6 +152,30 @@ namespace RFIDKeybWedge
 			Controls.Add(ConfigDevice);
 		}
 		
+		private void SchemaLoad()
+		{
+			lblSchema = new System.Windows.Forms.Label();
+			lblSchema.Location = new System.Drawing.Point(13, 64);
+			lblSchema.Name = "lblSchema";
+			lblSchema.Size = new System.Drawing.Size(100, 23);
+			lblSchema.TabIndex = 1;
+			lblSchema.Text = "Schema";
+			
+			Schema = new System.Windows.Forms.ComboBox();
+			Schema.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+			Schema.FormattingEnabled = true;
+			Schema.Location = new System.Drawing.Point(132, 64);
+			Schema.Name = "Schema";
+			Schema.Size = new System.Drawing.Size(121, 21);
+			Schema.TabIndex = 0;
+			Schema.Visible = true;
+			Schema.Items.AddRange(SchemaTypes());
+			//ConfigDevice.SelectedIndexChanged += new System.EventHandler(this.ConfigSerialSelectedIndexChanged);
+			
+			Controls.Add(lblSchema);
+			Controls.Add(Schema);
+		}
+		
 		private void BtnOKLoad()
 		{
 			btnOK = new System.Windows.Forms.Button();
@@ -171,7 +207,8 @@ namespace RFIDKeybWedge
 		
 		void BtnOKClick(object sender, System.EventArgs e)
 		{
-			if(ConfigDevice.Enabled)
+			
+			if(ConfigDevice.Enabled && Schema.SelectedItem!=null)
 			{
 				readConfig.setString("type",ConfigType.SelectedItem.ToString());
 				readConfig.setString("device",ConfigDevice.SelectedItem.ToString());

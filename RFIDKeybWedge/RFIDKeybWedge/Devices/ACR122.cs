@@ -19,9 +19,11 @@ namespace RFIDKeybWedge.Devices
 		private CardNative iCard;
 		private APDUCommand apduCmd;
 		private APDUResponse apduResp;
+		private bool _connected;
 		
 		public ACR122()
 		{
+			_connected = false;
 			iCard = new CardNative();
 		}
 		
@@ -37,11 +39,23 @@ namespace RFIDKeybWedge.Devices
 		public bool connect(string device)
 		{
 			this.iCard.Connect(device,SHARE.Direct,PROTOCOL.T0orT1);
+			_connected = true;
 			return true;
 		}
 		public bool disconnect()
 		{
-			return false;
+			this.iCard.Disconnect(DISCONNECT.Leave);
+			_connected = false;
+			return true;
+		}
+		
+		public void foo(){
+			APDUCommand apdu = new APDUCommand(255, 0, 0, 0, new byte [  212, 96, 1, 1, 32, 35, 17, 4, 16],9);
+			this.iCard.Transmit(apdu);
+		}
+		
+		public bool connected(){
+			return _connected;
 		}
 	}
 }

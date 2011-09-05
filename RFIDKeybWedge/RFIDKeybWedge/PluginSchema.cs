@@ -15,6 +15,6 @@ namespace RFIDKeybWedge
 	/// </summary>
 	public interface PluginSchema
 	{
-		
+		string getName();
 	}
 }
