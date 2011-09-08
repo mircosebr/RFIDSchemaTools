@@ -34,8 +34,11 @@ namespace RFIDKeybWedge.Schema
 			return "Keele Card";
 		}
 		
+		
+		
 		public string readCard()
 		{
+			
 			if(!device.connect(this.reader))
 			{
 				return null;

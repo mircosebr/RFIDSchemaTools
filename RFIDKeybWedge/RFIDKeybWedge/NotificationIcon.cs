@@ -34,7 +34,7 @@ namespace RFIDKeybWedge
 		private static bool _abort = false;
 		
 		public static ReaderConfiguration readConfiguration;
-		private PluginDevice reader;
+		private PluginDevice device;
 		private PluginSchema schema;
 		
 		//NotificationIcon notificationIcon;
@@ -90,22 +90,9 @@ namespace RFIDKeybWedge
 				if (isFirstInstance) {
 					NotificationIcon notificationIcon = new NotificationIcon();
 					notificationIcon.notifyIcon.Visible = true;
-					
-					//notificationIcon.connectReader();
-					//getRegistryConfig();
-					/*
-					if (NotificationIcon._serialPort == -1) {
-						notificationIcon.connectItem.Enabled = false;
-						notificationIcon.disconnectItem.Enabled = false;
-						serialConfig = new frmSerial();
-						serialConfig.Show();
-					}*/
-					
-					//else {
-						
-					//	NotificationIcon.connectedToReader = NotificationIcon.connectReader();
-						/*
-						if (NotificationIcon.connectedToReader) {
+					if(notificationIcon.connectReader())
+					{
+						if (notificationIcon.connectedToReader()) {
 							notificationIcon.connectItem.Enabled = false;
 							notificationIcon.disconnectItem.Enabled = true;
 						}
@@ -113,11 +100,16 @@ namespace RFIDKeybWedge
 							notificationIcon.connectItem.Enabled = true;
 							notificationIcon.disconnectItem.Enabled = false;
 						}
-						*/
-					//}
+					}else{
+						notificationIcon.connectItem.Enabled = false;
+						notificationIcon.disconnectItem.Enabled = false;
+						serialConfig = new frmSerial();
+						serialConfig.Show();
+					}
+					
 					if (NotificationIcon._incCRLF) 
 						notificationIcon.crlfConfig.Checked = true;
-					NotificationIcon.mainProgram = new Thread(ReadCard);
+					NotificationIcon.mainProgram = new Thread(notificationIcon.startSchemaRead);
 					Application.Run();
 					notificationIcon.notifyIcon.Dispose();
 				} else {
@@ -173,7 +165,8 @@ namespace RFIDKeybWedge
 			}
 		}
 		private void menuConnectClick(object sender, EventArgs e) {
-			if ((!connectedToReader) && (_serialPort != -1)) {
+			/*
+			if ((!connectedToReader()) && (_serialPort != -1)) {
 				if (sender == connectItem) {
 					connectedToReader = connectReader();
 					if (connectedToReader) {
@@ -182,9 +175,11 @@ namespace RFIDKeybWedge
 					}
 				}
 			}
+			*/
 		}
 		
 		private void menuDisconnectClick(object sender, EventArgs e) {
+			/*
 			if (connectedToReader) {
 				if (sender == disconnectItem) {
 					NotificationIcon.disconnectReader();
@@ -194,54 +189,52 @@ namespace RFIDKeybWedge
 					}
 				}
 			}
+			*/
 		}
 		
 		#endregion
 
-		public bool startSchemaRead()
+		public void startSchemaRead()
 		{
-			string type = readConfiguration.getString("type");
-			string device = readConfiguration.getString("device");
-			string schema = readConfiguration.getString("schema");
-			if(type == null || device == null)
-			{
-				return false;
+			while(!_abort){
+				if(connectedToReader()){
+					string cardNo = schema.readCard();
+					SendKeys.SendWait(cardNo);
+					System.Threading.Thread.Sleep(1000);
+				}
 			}
-			ACR122 acr122 = new ACR122();
-			if(acr122.getName().CompareTo(type)==0)
-			{
-				this.reader = acr122;
-			}
-			
-			if(this.reader == null)
-			{
-				return false;
-			}
-			
-			KeeleCard keeleCard = new KeeleCard(this.reader,device);
-			if(keeleCard.getName().CompareTo(schema)==0)
-			{
-				this.schema = keeleCard;
-			}
-			return true;
 		}
 		
 		public  bool connectReader() {
-			string type = readConfiguration.getString("type");
-			string device = readConfiguration.getString("device");
-			if(type == null || device == null)
+			string configType = readConfiguration.getString("type");
+			string configDevice = readConfiguration.getString("device");
+			string configSchema = readConfiguration.getString("schema");
+			if(configType == null || configDevice == null || configSchema == null)
 			{
 				return false;
 			}
+			
 			ACR122 acr122 = new ACR122();
-			if(acr122.getName().CompareTo(type)==0)
+			if(acr122.getName().CompareTo(configType)==0)
 			{
-				this.reader = acr122;
+				device = acr122;
 			}
-			if(reader!=null){
-				return reader.connect(device);
+			
+			if(device == null){
+				return false;
 			}
-			return false;
+			
+			KeeleCard keeleCard = new KeeleCard(device,configDevice);
+			if(keeleCard.getName().CompareTo(configSchema)==0)
+			{
+				schema = keeleCard;
+			}
+			
+			if(schema==null){
+				return false;
+				//return device.connect(configDevice);
+			}
+			return true;
 			/*
 			if (_serialPort == -1)
 				return false;
@@ -252,6 +245,18 @@ namespace RFIDKeybWedge
 			else
 				MessageBox.Show("Failed to connect to reader on Com " + _serialPort, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
 				return false;
+			*/
+		}
+		
+		public bool connectedToReader()
+		{
+			return device!=null && schema!=null;
+			/*
+			if(device==null || this.schema == null)
+			{
+				return false;
+			}
+			return this.device.connected();
 			*/
 		}
 		
@@ -309,10 +314,7 @@ namespace RFIDKeybWedge
 			get { return _incCRLF; }
 			set { _incCRLF = value; }
 		}
-		public bool connectedToReader {
-			get { return _connectedToReader; }
-			set { _connectedToReader = value; }
-		}
+		
 		public static long baud {
 			get { return _baud; }
 			set { _baud = value; }
