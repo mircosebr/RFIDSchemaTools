@@ -13,6 +13,7 @@ using System.Threading;
 using System.Windows.Forms;
 using Microsoft.Win32;
 using RFIDKeybWedge.Devices;
+using RFIDKeybWedge.Schema;
 
 namespace RFIDKeybWedge
 {
@@ -34,6 +35,7 @@ namespace RFIDKeybWedge
 		
 		public static ReaderConfiguration readConfiguration;
 		private PluginDevice reader;
+		private PluginSchema schema;
 		
 		//NotificationIcon notificationIcon;
 		
@@ -42,7 +44,8 @@ namespace RFIDKeybWedge
 		public NotificationIcon()
 		{
 			readConfiguration = new ReaderConfiguration();
-			ACR122 acr122 = new ACR122();
+			//ACR122 acr122 = new ACR122();
+			//KeeleCard keeleCard = new KeeleCard(acr122);
 			
 			serialConfigItem = new MenuItem("Configure Reader",menuSerialConfigClick);
 			crlfConfig = new MenuItem("Send CR/LF",menuCRLFClick);
@@ -50,8 +53,6 @@ namespace RFIDKeybWedge
 			disconnectItem = new MenuItem("Disconnect from Reader",menuDisconnectClick);
 			notifyIcon = new NotifyIcon();
 			notificationMenu = new ContextMenu(InitializeMenu());
-			
-			
 			
 			notifyIcon.DoubleClick += IconDoubleClick;
 			System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(NotificationIcon));
@@ -90,7 +91,7 @@ namespace RFIDKeybWedge
 					NotificationIcon notificationIcon = new NotificationIcon();
 					notificationIcon.notifyIcon.Visible = true;
 					
-					notificationIcon.connectReader();
+					//notificationIcon.connectReader();
 					//getRegistryConfig();
 					/*
 					if (NotificationIcon._serialPort == -1) {
@@ -196,103 +197,35 @@ namespace RFIDKeybWedge
 		}
 		
 		#endregion
-		/*
-		public static void getRegistryConfig() {
-			
-			int regSerialPort;
-			bool regIncCRLF;
-			
-			RegistryKey configStore = Registry.CurrentUser;
-			
-			configStore = configStore.OpenSubKey("SOFTWARE", true);
-			configStore.CreateSubKey("Keele");
-			configStore = configStore.CreateSubKey("Keele\\RFIDKeyboardWedge");
-			
-			if (configStore.GetValue("SerialPort") != null) {
-				
-				switch(configStore.GetValue("SerialPort").ToString())
-				{
-					case "1":
-						regSerialPort = 1;
-						break;
-					case "2":
-						regSerialPort = 2;
-						break;
-					case "3":
-						regSerialPort = 3;
-						break;
-					case "4":
-						regSerialPort = 4;
-						break;
-					case "5":
-						regSerialPort = 5;
-						break;
-					case "6":
-						regSerialPort = 6;
-						break;
-					case "7":
-						regSerialPort = 7;
-						break;
-					case "8":
-						regSerialPort = 8;
-						break;
-					case "9":
-						regSerialPort = 9;
-						break;
-					case "10":
-						regSerialPort = 10;
-						break;
-					case "11":
-						regSerialPort = 11;
-						break;
-					case "12":
-						regSerialPort = 12;
-						break;
-					default:
-						regSerialPort = -1;
-						break;
-				}
+
+		public bool startSchemaRead()
+		{
+			string type = readConfiguration.getString("type");
+			string device = readConfiguration.getString("device");
+			string schema = readConfiguration.getString("schema");
+			if(type == null || device == null)
+			{
+				return false;
 			}
-			else
-				regSerialPort = -1;
-			
-			if (configStore.GetValue("IncludeCRLF") != null) {
-				if (configStore.GetValue("IncludeCRLF").ToString().CompareTo("true") == 0)
-					regIncCRLF = true;
-				else
-					regIncCRLF = false;
+			ACR122 acr122 = new ACR122();
+			if(acr122.getName().CompareTo(type)==0)
+			{
+				this.reader = acr122;
 			}
-			else regIncCRLF = false;
 			
-			configStore.Close();
-			configStore = null;
-			NotificationIcon._serialPort = regSerialPort;
-			NotificationIcon._incCRLF = regIncCRLF;
+			if(this.reader == null)
+			{
+				return false;
+			}
+			
+			KeeleCard keeleCard = new KeeleCard(this.reader,device);
+			if(keeleCard.getName().CompareTo(schema)==0)
+			{
+				this.schema = keeleCard;
+			}
+			return true;
 		}
-		*/
-	/*
-		public static void setRegistryConfig() {
-			
-			RegistryKey configStore = Registry.CurrentUser;
-			
-			try {
-				configStore = configStore.OpenSubKey("SOFTWARE", true);
-				configStore.CreateSubKey("Keele");
-				configStore = configStore.CreateSubKey("Keele\\RFIDKeyboardWedge");
-			
-				if (_serialPort != -1)
-					configStore.SetValue("SerialPort",NotificationIcon._serialPort.ToString());
-			
-				configStore.SetValue("IncludeCRLF",NotificationIcon._incCRLF.ToString());
-				configStore.Close();
-			}
-			catch (Exception ex) {
-			}
-			finally {
-				configStore = null;
-			}
-		}
-		*/
+		
 		public  bool connectReader() {
 			string type = readConfiguration.getString("type");
 			string device = readConfiguration.getString("device");
@@ -401,3 +334,100 @@ namespace RFIDKeybWedge
 	}
 	
 }
+		/*
+		public static void getRegistryConfig() {
+			
+			int regSerialPort;
+			bool regIncCRLF;
+			
+			RegistryKey configStore = Registry.CurrentUser;
+			
+			configStore = configStore.OpenSubKey("SOFTWARE", true);
+			configStore.CreateSubKey("Keele");
+			configStore = configStore.CreateSubKey("Keele\\RFIDKeyboardWedge");
+			
+			if (configStore.GetValue("SerialPort") != null) {
+				
+				switch(configStore.GetValue("SerialPort").ToString())
+				{
+					case "1":
+						regSerialPort = 1;
+						break;
+					case "2":
+						regSerialPort = 2;
+						break;
+					case "3":
+						regSerialPort = 3;
+						break;
+					case "4":
+						regSerialPort = 4;
+						break;
+					case "5":
+						regSerialPort = 5;
+						break;
+					case "6":
+						regSerialPort = 6;
+						break;
+					case "7":
+						regSerialPort = 7;
+						break;
+					case "8":
+						regSerialPort = 8;
+						break;
+					case "9":
+						regSerialPort = 9;
+						break;
+					case "10":
+						regSerialPort = 10;
+						break;
+					case "11":
+						regSerialPort = 11;
+						break;
+					case "12":
+						regSerialPort = 12;
+						break;
+					default:
+						regSerialPort = -1;
+						break;
+				}
+			}
+			else
+				regSerialPort = -1;
+			
+			if (configStore.GetValue("IncludeCRLF") != null) {
+				if (configStore.GetValue("IncludeCRLF").ToString().CompareTo("true") == 0)
+					regIncCRLF = true;
+				else
+					regIncCRLF = false;
+			}
+			else regIncCRLF = false;
+			
+			configStore.Close();
+			configStore = null;
+			NotificationIcon._serialPort = regSerialPort;
+			NotificationIcon._incCRLF = regIncCRLF;
+		}
+		*/
+	/*
+		public static void setRegistryConfig() {
+			
+			RegistryKey configStore = Registry.CurrentUser;
+			
+			try {
+				configStore = configStore.OpenSubKey("SOFTWARE", true);
+				configStore.CreateSubKey("Keele");
+				configStore = configStore.CreateSubKey("Keele\\RFIDKeyboardWedge");
+			
+				if (_serialPort != -1)
+					configStore.SetValue("SerialPort",NotificationIcon._serialPort.ToString());
+			
+				configStore.SetValue("IncludeCRLF",NotificationIcon._incCRLF.ToString());
+				configStore.Close();
+			}
+			catch (Exception ex) {
+			}
+			finally {
+				configStore = null;
+			}
+		}
+		*/

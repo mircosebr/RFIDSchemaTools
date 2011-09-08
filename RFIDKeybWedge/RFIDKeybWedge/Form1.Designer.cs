@@ -62,7 +62,7 @@ namespace RFIDKeybWedge
 		{
 			readConfig = NotificationIcon.readConfiguration;
 			acr122 = new ACR122();
-			keeleCard = new KeeleCard();
+			keeleCard = new KeeleCard(acr122);
 			ConfigDeviceLoad();
 			ConfigTypeLoad();
 			SchemaLoad();

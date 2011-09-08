@@ -1,8 +1,8 @@
 ﻿/*
  * Created by SharpDevelop.
  * Author: Peter Brooks http://www.pbrooks.net
- * Date: 04/09/2011
- * Time: 15:39
+ * Date: 08/09/2011
+ * Time: 08:39
  * 
  * To change this template use Tools | Options | Coding | Edit Standard Headers.
  */
@@ -11,15 +11,12 @@ using System;
 namespace RFIDKeybWedge
 {
 	/// <summary>
-	/// Description of PluginDevice.
+	/// Description of Interface1.
 	/// </summary>
-	public interface PluginDevice
+	public interface DeviceQuery
 	{
-		string getName();
-		string[] devices();
-		bool connect(string device);
-		bool disconnect();
-		DeviceQuery select();
+		bool authenticate(byte[] key, byte block);
+		byte[] readBlock(byte block);
 		
 	}
 }
