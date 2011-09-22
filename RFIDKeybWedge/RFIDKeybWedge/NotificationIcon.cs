@@ -109,12 +109,13 @@ namespace RFIDKeybWedge
 					
 					if (NotificationIcon._incCRLF) 
 						notificationIcon.crlfConfig.Checked = true;
-				
-					Debug.WriteLine("Pre thread");
+
 					
 					//NotificationIcon.mainProgram = new Thread(notificationIcon.startSchemaRead);
 					Thread oThread = new Thread(new ThreadStart(notificationIcon.startSchemaRead));
-					oThread.Start();
+	
+					//NotificationIcon.mainProgram = new Thread(notificationIcon.startSchemaRead);
+
 					Application.Run();
 					notificationIcon.notifyIcon.Dispose();
 					//notificationIcon.startSchemaRead();

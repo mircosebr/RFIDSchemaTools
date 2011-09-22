@@ -11,6 +11,7 @@ using System.Text;
 using System.Windows.Forms;
 using LS8000CommsLib;
 
+
 namespace RFIDKeybWedge
 {
 	/// <summary>

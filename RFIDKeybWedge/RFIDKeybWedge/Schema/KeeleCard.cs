@@ -40,11 +40,15 @@ namespace RFIDKeybWedge.Schema
 		
 		public string readCard()
 		{
+			if(!device.connected()){
+				device.connect(this.reader);
+			}
 			
-			if(!device.connect(this.reader))
+			/*if(!device.connect(this.reader))
 			{
 				return null;
 			}
+			*/
 			DeviceQuery query = device.select();
 			if(!query.authenticate(new byte[6]{0xA0, 0xA1, 0xA2, 0xA3, 0xA4, 0xA5}, 0x08))
 			{
@@ -69,6 +73,7 @@ namespace RFIDKeybWedge.Schema
 			val = val.TrimStart('0');
 			char[] cardNo = new char[8];
 			Array.Copy(val.ToCharArray(),0,cardNo,0,8);
+<<<<<<< HEAD
 			device.disconnect();
 			SendKeys.SendWait("72{ENTER}");
 				
@@ -77,6 +82,9 @@ namespace RFIDKeybWedge.Schema
 			
 			
 				
+=======
+			//device.disconnect();
+>>>>>>> a6ae4f2f90cfbc8cad32b852ef8bdfe516cbf720
 			return new string(cardNo);
 		}
 	}

@@ -108,7 +108,7 @@ namespace RFIDKeybWedge.Devices
 		}
 		public bool disconnect()
 		{
-			this.iCard.Disconnect(DISCONNECT.Eject);
+			this.iCard.Disconnect(DISCONNECT.Reset);
 			_connected = false;
 			return true;
 		}
@@ -146,10 +146,13 @@ namespace RFIDKeybWedge.Devices
 				
 				int data_len = r2.Data.Length;
 				
-				//Exceptions: No tags found, tag type not mifare (Schema?) Wrong type of tag
 				
+				//Exceptions: No tags found, tag type not mifare (Schema?) Wrong type of tag
+				if(data_len==3){
+					return;
+				}
 				//Retrieve the UID from the data returned
-				byte[] _uid = new byte[4];
+				_uid = new byte[4];
 				Array.Copy( r2.Data,data_len-4, _uid, 0, 4);
 				
 				//Store card information
