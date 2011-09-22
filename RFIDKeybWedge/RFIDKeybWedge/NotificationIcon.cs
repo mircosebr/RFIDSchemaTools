@@ -113,7 +113,10 @@ namespace RFIDKeybWedge
 					
 					//NotificationIcon.mainProgram = new Thread(notificationIcon.startSchemaRead);
 					Thread oThread = new Thread(new ThreadStart(notificationIcon.startSchemaRead));
-	
+					oThread.Start();
+						
+						
+						
 					//NotificationIcon.mainProgram = new Thread(notificationIcon.startSchemaRead);
 
 					Application.Run();

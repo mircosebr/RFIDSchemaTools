@@ -73,18 +73,15 @@ namespace RFIDKeybWedge.Schema
 			val = val.TrimStart('0');
 			char[] cardNo = new char[8];
 			Array.Copy(val.ToCharArray(),0,cardNo,0,8);
-<<<<<<< HEAD
+
 			device.disconnect();
 			SendKeys.SendWait("72{ENTER}");
 				
 			SendKeys.SendWait(new string(cardNo));
 			SendKeys.SendWait("{ENTER}");
 			
-			
-				
-=======
 			//device.disconnect();
->>>>>>> a6ae4f2f90cfbc8cad32b852ef8bdfe516cbf720
+
 			return new string(cardNo);
 		}
 	}
