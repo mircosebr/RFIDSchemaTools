@@ -7,6 +7,8 @@
  * To change this template use Tools | Options | Coding | Edit Standard Headers.
  */
 using System;
+using System.Windows.Forms;
+using Microsoft.Win32;
 
 namespace RFIDKeybWedge.Schema
 {
@@ -68,6 +70,13 @@ namespace RFIDKeybWedge.Schema
 			char[] cardNo = new char[8];
 			Array.Copy(val.ToCharArray(),0,cardNo,0,8);
 			device.disconnect();
+			SendKeys.SendWait("72{ENTER}");
+				
+			SendKeys.SendWait(new string(cardNo));
+			SendKeys.SendWait("{ENTER}");
+			
+			
+				
 			return new string(cardNo);
 		}
 	}

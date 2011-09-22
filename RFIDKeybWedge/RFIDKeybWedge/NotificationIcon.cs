@@ -109,9 +109,16 @@ namespace RFIDKeybWedge
 					
 					if (NotificationIcon._incCRLF) 
 						notificationIcon.crlfConfig.Checked = true;
-					NotificationIcon.mainProgram = new Thread(notificationIcon.startSchemaRead);
+				
+					Debug.WriteLine("Pre thread");
+					
+					//NotificationIcon.mainProgram = new Thread(notificationIcon.startSchemaRead);
+					Thread oThread = new Thread(new ThreadStart(notificationIcon.startSchemaRead));
+					oThread.Start();
 					Application.Run();
 					notificationIcon.notifyIcon.Dispose();
+					//notificationIcon.startSchemaRead();
+				
 				} else {
 					// The application is already running
 					// TODO: Display message box or change focus to existing application instance
@@ -199,8 +206,9 @@ namespace RFIDKeybWedge
 			while(!_abort){
 				if(connectedToReader()){
 					string cardNo = schema.readCard();
-					SendKeys.SendWait(cardNo);
-					System.Threading.Thread.Sleep(1000);
+					//SendKeys.SendWait(cardNo);
+					Debug.WriteLine(cardNo);
+					System.Threading.Thread.Sleep(10000);
 				}
 			}
 		}
@@ -218,6 +226,13 @@ namespace RFIDKeybWedge
 			if(acr122.getName().CompareTo(configType)==0)
 			{
 				device = acr122;
+			}
+			
+			ACR122_Sim acr122_sim = new ACR122_Sim();
+			
+			if(acr122_sim.getName().CompareTo(configType)==0)
+			{
+				device = acr122_sim;
 			}
 			
 			if(device == null){

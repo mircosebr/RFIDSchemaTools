@@ -23,6 +23,7 @@ namespace RFIDKeybWedge
 		
 		private ReaderConfiguration readConfig;
 		private ACR122 acr122;
+		private ACR122_Sim acr122_sim;
 		private KeeleCard keeleCard;
 		
 		private System.Windows.Forms.Label lblConfigType;
@@ -62,6 +63,7 @@ namespace RFIDKeybWedge
 		{
 			readConfig = NotificationIcon.readConfiguration;
 			acr122 = new ACR122();
+			acr122_sim = new ACR122_Sim();
 			keeleCard = new KeeleCard(acr122);
 			ConfigDeviceLoad();
 			ConfigTypeLoad();
@@ -82,8 +84,11 @@ namespace RFIDKeybWedge
 		
 		private string[] ConfigTypes()
 		{
-			string[] types = new string[1];
-			types[0] = acr122.getName();
+			string[] types = new string[]{
+				acr122.getName(),
+				acr122_sim.getName()
+			};
+			
 			return types;
 		}
 		
@@ -172,6 +177,16 @@ namespace RFIDKeybWedge
 			Schema.Items.AddRange(SchemaTypes());
 			//ConfigDevice.SelectedIndexChanged += new System.EventHandler(this.ConfigSerialSelectedIndexChanged);
 			
+			IEnumerator schemaEnumerator = Schema.Items.GetEnumerator();
+			while(schemaEnumerator.MoveNext())
+			{
+				string value = readConfig.getString("schema");
+				if(value!=null && value.CompareTo(schemaEnumerator.Current)==0)
+				{
+					Schema.SelectedItem = schemaEnumerator.Current;
+				}
+			}
+			
 			Controls.Add(lblSchema);
 			Controls.Add(Schema);
 		}
@@ -212,6 +227,7 @@ namespace RFIDKeybWedge
 			{
 				readConfig.setString("type",ConfigType.SelectedItem.ToString());
 				readConfig.setString("device",ConfigDevice.SelectedItem.ToString());
+				readConfig.setString("schema",Schema.SelectedItem.ToString());
 				this.Close();
 				this.Dispose();
 			}else{
@@ -278,6 +294,15 @@ namespace RFIDKeybWedge
 					ConfigDevice.Items.AddRange(devices);
 				}
 			}
+			if(ConfigType.SelectedItem.ToString().CompareTo(acr122_sim.getName())==0)
+			{
+				string[] devices = acr122_sim.devices();
+				if(devices!=null){
+					ConfigDevice.Items.AddRange(devices);
+				}
+			}
+			
+			
 			IEnumerator configEnumerator = ConfigDevice.Items.GetEnumerator();
 			while(configEnumerator.MoveNext())
 			{
