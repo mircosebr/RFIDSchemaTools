@@ -226,6 +226,12 @@ namespace RFIDKeybWedge
 				return false;
 			}
 			
+			LS8000 ls8000 = new LS8000();
+			if(ls8000.getName().CompareTo(configType)==0)
+			{
+				device = ls8000;
+			}
+			
 			ACR122 acr122 = new ACR122();
 			if(acr122.getName().CompareTo(configType)==0)
 			{

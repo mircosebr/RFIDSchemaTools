@@ -68,12 +68,15 @@ namespace RFIDKeybWedge
 		public bool ReadCard() {
 			
 			MessageBox.Show("In readcard");
+			
 			ushort cType = 0;
 			StringBuilder serial = new StringBuilder(), cardcap = new StringBuilder(), carddata = new StringBuilder();
 			char serlength, datalength;
+			
 			while (Comms.rf_request(NotificationIcon.icDev, (char)0x26, ref cType) != 0) {
 				System.Threading.Thread.Sleep(500);
 			}
+			
 			MessageBox.Show("Got card","Got card");
 			cardType = cType;
 			if (cType != 0) {
@@ -96,6 +99,7 @@ namespace RFIDKeybWedge
 					MessageBox.Show("Could not read card!", "Card Error!",MessageBoxButtons.OK,MessageBoxIcon.Error);
 					return false;
 				}
+				
 				cardCapacity = cardcap.ToString();
 				keeleCardNumber = carddata.ToString();
 				kcLength = datalength.ToString();
