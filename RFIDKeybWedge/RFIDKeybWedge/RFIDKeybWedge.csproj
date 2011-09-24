@@ -52,7 +52,6 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="ACR122Reader.cs" />
     <Compile Include="Devices\ACR122.cs" />
     <Compile Include="DeviceQuery.cs" />
     <Compile Include="Devices\ACR122_Sim.cs" />

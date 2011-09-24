@@ -7,32 +7,19 @@
  * To change this template use Tools | Options | Coding | Edit Standard Headers.
  */
 using System;
+
 using System.Windows.Forms;
+using System.Drawing;
+using System.Diagnostics;
 using Microsoft.Win32;
 
 namespace RFIDKeybWedge.Schema
 {
-	
-	
-	
-	
-
-	
 	/// <summary>
 	/// Description of KeeleCard.
 	/// </summary>
 	public class KeeleCard : PluginSchema
 	{
-		
-		[System.Runtime.InteropServices.DllImport("user32.dll")]
-	public static extern void mouse_event(int dwFlags, int dx, int dy, int cButtons, int dwExtraInfo);
-		
-		public const int MOUSEEVENTF_LEFTDOWN = 0x02;
-	public const int MOUSEEVENTF_LEFTUP = 0x04;
-	public const int MOUSEEVENTF_RIGHTDOWN = 0x08;
-	public const int MOUSEEVENTF_RIGHTUP = 0x10;
-		
-		
 		private PluginDevice device;
 		public static string name = "Keele Card";
 		public string reader;
@@ -95,12 +82,6 @@ namespace RFIDKeybWedge.Schema
 			System.Threading.Thread.Sleep(1000);
 			SendKeys.SendWait(new string(cardNo));
 			SendKeys.SendWait("{ENTER}");
-			int x=10;
-			int y=10;
-			//device.disconnect();
-			mouse_event(MOUSEEVENTF_LEFTDOWN, x, y, 0, 0);
-			mouse_event(MOUSEEVENTF_LEFTUP, x, y, 0, 0);
-			
 			return new string(cardNo);
 		}
 	}
