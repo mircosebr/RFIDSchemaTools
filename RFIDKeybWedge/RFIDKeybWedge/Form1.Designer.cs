@@ -24,6 +24,7 @@ namespace RFIDKeybWedge
 		private ReaderConfiguration readConfig;
 		private ACR122 acr122;
 		private ACR122_Sim acr122_sim;
+		private LS8000 ls8000;
 		private KeeleCard keeleCard;
 		
 		private System.Windows.Forms.Label lblConfigType;
@@ -64,6 +65,7 @@ namespace RFIDKeybWedge
 			readConfig = NotificationIcon.readConfiguration;
 			acr122 = new ACR122();
 			acr122_sim = new ACR122_Sim();
+			ls8000 = new LS8000();
 			keeleCard = new KeeleCard(acr122);
 			ConfigDeviceLoad();
 			ConfigTypeLoad();
@@ -86,7 +88,8 @@ namespace RFIDKeybWedge
 		{
 			string[] types = new string[]{
 				acr122.getName(),
-				acr122_sim.getName()
+				acr122_sim.getName(),
+				ls8000.getName()
 			};
 			
 			return types;
@@ -297,6 +300,13 @@ namespace RFIDKeybWedge
 			if(ConfigType.SelectedItem.ToString().CompareTo(acr122_sim.getName())==0)
 			{
 				string[] devices = acr122_sim.devices();
+				if(devices!=null){
+					ConfigDevice.Items.AddRange(devices);
+				}
+			}
+			if(ConfigType.SelectedItem.ToString().CompareTo(ls8000.getName())==0)
+			{
+				string[] devices = ls8000.devices();
 				if(devices!=null){
 					ConfigDevice.Items.AddRange(devices);
 				}

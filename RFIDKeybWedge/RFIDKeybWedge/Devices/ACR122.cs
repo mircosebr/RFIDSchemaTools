@@ -101,28 +101,28 @@ namespace RFIDKeybWedge.Devices
 			
 		public bool connect(string device)
 		{		
-			/*
+			
 			String[] readers = this.iCard.ListReaders();
-			this.iCard.EndTransaction(DISCONNECT.Eject);
-			this.iCard.EndTransaction(DISCONNECT.Leave);
-			this.iCard.EndTransaction(DISCONNECT.Reset);
-			this.iCard.EndTransaction(DISCONNECT.Unpower);
-			
-			this.iCard.Disconnect(DISCONNECT.Eject);
-			this.iCard.Disconnect(DISCONNECT.Leave);
-			this.iCard.Disconnect(DISCONNECT.Reset);
-			this.iCard.Disconnect(DISCONNECT.Unpower);
-			
-			this.iCard.ReleaseContext();
-			*/
-			Debug.WriteLine("Try");
+			if(readers == null){
+				return false;
+			}
+
 			if(!_connected){
-				Debug.WriteLine("Connecting");
+
 				this.iCard.Connect(device,SHARE.Direct,PROTOCOL.T0orT1);
+
 				_connected = true;
 			}
+				//this.iCard.OnCardInserted += new CardInsertedEventHandler( processCard);
 			return true;
 		}
+		/*
+		public void processCard(){
+			Debug.WriteLine("Process card");
+			
+		}
+		*/
+		
 		public bool disconnect()
 		{
 		
@@ -137,7 +137,8 @@ namespace RFIDKeybWedge.Devices
 			this.iCard.Disconnect(DISCONNECT.Reset);
 			this.iCard.Disconnect(DISCONNECT.Unpower);
 			*/
-			//_connected = false;
+			this.iCard.Disconnect(DISCONNECT.Leave);
+			_connected = false;
 			return true;
 		}
 		
@@ -195,6 +196,8 @@ namespace RFIDKeybWedge.Devices
 				};
 				_tag = r2.Data[7]; 
 			}
+			
+			
 			
 			public bool authenticate(byte[] key, byte block)
 			{

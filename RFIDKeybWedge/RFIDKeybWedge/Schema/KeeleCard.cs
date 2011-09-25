@@ -46,7 +46,9 @@ namespace RFIDKeybWedge.Schema
 			if(!device.connected()){
 				device.connect(this.reader);
 			}
-			
+			if(!device.connected()){
+				return null;
+			}
 			/*if(!device.connect(this.reader))
 			{
 				return null;

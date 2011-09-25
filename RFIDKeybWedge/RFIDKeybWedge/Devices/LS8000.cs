@@ -41,7 +41,20 @@ namespace RFIDKeybWedge.Devices
 		}
 		
 		public string[] devices(){
-			return new string[]{};
+			return new string[]{
+				"Com1",
+				"Com2",
+				"Com3",
+				"Com4",
+				"Com5",
+				"Com6",
+				"Com7",
+				"Com8",
+				"Com9",
+				"Com10",
+				"Com11",
+				"Com12"
+			};
 		}
 		
 		public DeviceQuery select()
@@ -58,7 +71,8 @@ namespace RFIDKeybWedge.Devices
 			
 		public bool connect(string device)
 		{
-			
+		
+			_serialPort = Convert.ToInt32(device.Replace("Com",""));
 			// check port number is valid
 			if (_serialPort == -1)
 				return false;
