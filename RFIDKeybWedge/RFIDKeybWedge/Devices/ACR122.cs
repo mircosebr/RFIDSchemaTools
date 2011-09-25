@@ -100,16 +100,44 @@ namespace RFIDKeybWedge.Devices
 		}
 			
 		public bool connect(string device)
-		{
-			this.iCard.Connect(device,SHARE.Direct,PROTOCOL.T0orT1);
-			_connected = true;
+		{		
+			/*
+			String[] readers = this.iCard.ListReaders();
+			this.iCard.EndTransaction(DISCONNECT.Eject);
+			this.iCard.EndTransaction(DISCONNECT.Leave);
+			this.iCard.EndTransaction(DISCONNECT.Reset);
+			this.iCard.EndTransaction(DISCONNECT.Unpower);
 			
+			this.iCard.Disconnect(DISCONNECT.Eject);
+			this.iCard.Disconnect(DISCONNECT.Leave);
+			this.iCard.Disconnect(DISCONNECT.Reset);
+			this.iCard.Disconnect(DISCONNECT.Unpower);
+			
+			this.iCard.ReleaseContext();
+			*/
+			Debug.WriteLine("Try");
+			if(!_connected){
+				Debug.WriteLine("Connecting");
+				this.iCard.Connect(device,SHARE.Direct,PROTOCOL.T0orT1);
+				_connected = true;
+			}
 			return true;
 		}
 		public bool disconnect()
 		{
+		
+				/*
+			this.iCard.EndTransaction(DISCONNECT.Eject);
+			this.iCard.EndTransaction(DISCONNECT.Leave);
+			this.iCard.EndTransaction(DISCONNECT.Reset);
+			this.iCard.EndTransaction(DISCONNECT.Unpower);
+			
+			this.iCard.Disconnect(DISCONNECT.Eject);
+			this.iCard.Disconnect(DISCONNECT.Leave);
 			this.iCard.Disconnect(DISCONNECT.Reset);
-			_connected = false;
+			this.iCard.Disconnect(DISCONNECT.Unpower);
+			*/
+			//_connected = false;
 			return true;
 		}
 		
@@ -135,6 +163,10 @@ namespace RFIDKeybWedge.Devices
 			
 			public void select()
 			{
+				//byte[] d0 = new byte[9] { 0xFF, 0x00, 0x48, 0x00, 0x00];
+				//APDUCommand a0 = new APDUCommand( 0xFF, 0x00, 0x48, 0x00,null, 0x00);
+				//APDUResponse r0 = this.iCard.Transmit(a0);
+				
 				//Make the request
 				byte[] d1 = new byte[9] {  0xD4, 0x60, 0x01, 0x01, 0x20, 0x23, 0x11, 0x04, 0x10};
 				APDUCommand a1 = new APDUCommand( 0xFF, 0x00, 0x00, 0x00, d1 ,0x09);
