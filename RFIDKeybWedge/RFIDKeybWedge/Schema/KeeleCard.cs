@@ -61,6 +61,10 @@ namespace RFIDKeybWedge.Schema
 			}
 			byte[] read = query.readBlock(0x08);
 			
+			if(read == null){
+				return null;
+			}
+			
 			string val = "";
 			foreach(var b in read){
 				byte bcd = b;

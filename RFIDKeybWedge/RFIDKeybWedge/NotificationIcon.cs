@@ -245,6 +245,12 @@ namespace RFIDKeybWedge
 				device = acr122_sim;
 			}
 			
+			ACR122_v2 acr122_v2 = new ACR122_v2();
+			if(acr122_v2.getName().CompareTo(configType)==0)
+			{
+				device = acr122_v2;
+			}
+			
 			if(device == null){
 				return false;
 			}

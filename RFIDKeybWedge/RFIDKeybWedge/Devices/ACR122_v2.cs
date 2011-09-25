@@ -19,7 +19,7 @@ namespace RFIDKeybWedge.Devices
 	/// <summary>
 	/// Description of ACR122.
 	/// </summary>
-	public class ACR122 : PluginDevice
+	public class ACR122_v2 : PluginDevice
 	{
 		struct Key{
 			public readonly byte dim1;
@@ -73,7 +73,7 @@ namespace RFIDKeybWedge.Devices
 		private bool _connected;
 		
 		
-		public ACR122()
+		public ACR122_v2()
 		{
 			_connected = false;
 			iCard = new CardNative();
@@ -81,7 +81,7 @@ namespace RFIDKeybWedge.Devices
 		
 		public string getName()
 		{
-			return "ARC122U";
+			return "ARC122U v2";
 		}
 		
 		public string[] devices(){
@@ -94,7 +94,7 @@ namespace RFIDKeybWedge.Devices
 			{
 				return null;
 			}
-			ACR122Query query = new ACR122Query(this.iCard);
+			ACR122Query_v2 query = new ACR122Query_v2(this.iCard);
 			
 			return query;
 		}
@@ -106,28 +106,24 @@ namespace RFIDKeybWedge.Devices
 			if(readers == null){
 				return false;
 			}
-
+	
 			if(!_connected){
 				try{
 					this.iCard.Connect(device,SHARE.Direct,PROTOCOL.T0orT1);
 				}catch(System.Exception){
-					return false;
+					return false;;
 				}
 				_connected = true;
 			}
-				//this.iCard.OnCardInserted += new CardInsertedEventHandler( processCard);
+
 			return true;
 		}
-		/*
-		public void processCard(){
-			Debug.WriteLine("Process card");
-			
-		}
-		*/
+
 		
 		public bool disconnect()
 		{
-
+		
+				
 			this.iCard.Disconnect(DISCONNECT.Leave);
 			_connected = false;
 			return true;
@@ -137,7 +133,7 @@ namespace RFIDKeybWedge.Devices
 			return _connected;
 		}
 		
-		class  ACR122Query : DeviceQuery {
+		class  ACR122Query_v2 : DeviceQuery {
 			private CardNative iCard;
 			private int _numCards;
 			private byte[] _tagType;
@@ -145,7 +141,7 @@ namespace RFIDKeybWedge.Devices
 			private byte[] _uid;
 			
 			
-			public ACR122Query(CardNative iCard)
+			public ACR122Query_v2(CardNative iCard)
 			{
 				this.iCard = iCard;
 				_numCards=-1;
@@ -155,76 +151,49 @@ namespace RFIDKeybWedge.Devices
 			
 			public void select()
 			{
-				//Make the request
-				byte[] d1 = new byte[9] {  0xD4, 0x60, 0x01, 0x01, 0x20, 0x23, 0x11, 0x04, 0x10};
-				APDUCommand a1 = new APDUCommand( 0xFF, 0x00, 0x00, 0x00, d1 ,0x09);
-				APDUResponse r1 = this.iCard.Transmit(a1);
+				//Firmware
+				//APDUCommand c_f = new APDUCommand( 0xFF, 0x00, 0x48, 0x00, null, 0x00);
+				//APDUResponse r_f = this.iCard.Transmit(c_f);
 				
-				//Retrieve the result
-				APDUCommand a2 = new APDUCommand( 0XFF, 0xC0, 0x00, 0x00, null, r1.SW2);
-				APDUResponse r2 = this.iCard.Transmit(a2);
-				
-				int data_len = r2.Data.Length;
-				
-				
-				//Exceptions: No tags found, tag type not mifare (Schema?) Wrong type of tag
-				if(data_len==3){
-					return;
+				//Select?
+				APDUCommand cc0 = new APDUCommand( 0xFF, 0xCA, 0x00, 0x00 ,null, 0x04);
+				try{
+					APDUResponse rr0 = this.iCard.Transmit(cc0);
+				}catch(System.Exception){
+					;
 				}
-				//Retrieve the UID from the data returned
-				_uid = new byte[4];
-				Array.Copy( r2.Data,data_len-4, _uid, 0, 4);
-				
-				//Store card information
-				_numCards = r2.Data[2];
-				_tagType = new Byte[]{
-					r2.Data[3],
-					r2.Data[4]
-				};
-				_tag = r2.Data[7]; 
-			}
-			
-			
+			}		
 			
 			public bool authenticate(byte[] key, byte block)
 			{
-				byte[] card_uid=uid();
-				if(card_uid==null)
-				{
+				//Load authentication
+				APDUCommand cc1 = new APDUCommand( 0xFF, 0x82, 0x00, 0x00, key, 0x06);
+				try{
+					APDUResponse rr1 = this.iCard.Transmit(cc1);
+				}catch(System.Exception){
 					return false;
 				}
-				//Send authentication command
-				byte[] d1 = new byte[] { 0xD4, 0x40, 0x01, 0x60, block, key[0], key[1], key[2], key[3], key[4], key[5],
-					card_uid[0], card_uid[1], card_uid[2], card_uid[3]
-				};
-				APDUCommand a1 = new APDUCommand( 0xFF, 0x00, 0x00, 0x00, d1, 0x0F);
-				APDUResponse r1 = this.iCard.Transmit(a1);
-				
-				//Status code 61 05 is valid
-				
-				
-				//Read response
-				APDUCommand a2 = new APDUCommand( 0xFF, 0xC0, 0x00, 0x00, null, 0x05);
-				APDUResponse r2 = this.iCard.Transmit(a2);
-				
-				//Status code 90 00 is valid, else error
+				//Authenticate
+				APDUCommand cc2 = new APDUCommand(0xFF, 0x86, 0x00,  0x00, new byte[]{0x01,0x00,block,0x60,0x00} , 0x05);
+				try{
+					APDUResponse rr2 = this.iCard.Transmit(cc2);
+				}catch(System.Exception){
+					return false;
+				}
 				return true;
 			}
 			
 			public byte[] readBlock(byte block)
 			{
-				byte[] d1 = new Byte[] { 0xD4, 0x40, 0x01, 0x30, block };
-				APDUCommand a1 = new APDUCommand( 0xFF, 0x00, 0x00, 0x00, d1, 0x05);
-				APDUResponse r1 = this.iCard.Transmit(a1);
-				
-				//Status code 61 15
-				
-				APDUCommand a2 = new APDUCommand( 0xFF, 0xC0, 0x00, 0x00, null, 0x15);
-				APDUResponse r2 = this.iCard.Transmit(a2);
-				
-				//Status Code ??
-				
-				return r2.Data;
+				//Read block
+				APDUCommand cc3 = new APDUCommand(0xFF, 0xB0, 0x00, 0x08, null, 0x10);
+				try{
+					APDUResponse rr3 = this.iCard.Transmit(cc3);
+					return rr3.Data;
+				}catch(System.Exception){
+					return null;
+				}
+				return null;
 			}
 			
 			public int numCards(){ return _numCards; }
