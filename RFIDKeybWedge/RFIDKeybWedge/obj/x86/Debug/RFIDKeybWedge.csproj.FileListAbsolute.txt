@@ -33,14 +33,25 @@ C:\Users\Administrator\projects\RFIDKeyWedge\RFIDKeybWedge\RFIDKeybWedge\obj\x86
 C:\Users\Administrator\projects\RFIDKeyWedge\RFIDKeybWedge\RFIDKeybWedge\obj\x86\Debug\RFIDKeybWedge.csproj.GenerateResource.Cache
 C:\Users\Administrator\projects\RFIDKeyWedge\RFIDKeybWedge\RFIDKeybWedge\obj\x86\Debug\RFIDKeybWedge.exe
 C:\Users\Administrator\projects\RFIDKeyWedge\RFIDKeybWedge\RFIDKeybWedge\obj\x86\Debug\RFIDKeybWedge.pdb
+<<<<<<< HEAD
+=======
+C:\Users\Administrator\projects\RFIDSchemaTools\RFIDKeybWedge\RFIDKeybWedge\bin\Debug\RFIDKeybWedge.exe
+C:\Users\Administrator\projects\RFIDSchemaTools\RFIDKeybWedge\RFIDKeybWedge\bin\Debug\RFIDKeybWedge.pdb
+C:\Users\Administrator\projects\RFIDSchemaTools\RFIDKeybWedge\RFIDKeybWedge\bin\Debug\GemCard.dll
+C:\Users\Administrator\projects\RFIDSchemaTools\RFIDKeybWedge\RFIDKeybWedge\bin\Debug\Interop.GemCardExLib.dll
+C:\Users\Administrator\projects\RFIDSchemaTools\RFIDKeybWedge\RFIDKeybWedge\bin\Debug\Interop.SCARDSSPLib.dll
+>>>>>>> 6ab9a8f50ade6b7b78f276420810c02a94bda043
 C:\Users\Administrator\projects\RFIDSchemaTools\RFIDKeybWedge\RFIDKeybWedge\obj\x86\Debug\ResolveAssemblyReference.cache
 C:\Users\Administrator\projects\RFIDSchemaTools\RFIDKeybWedge\RFIDKeybWedge\obj\x86\Debug\RFIDKeybWedge.frmSerial.resources
 C:\Users\Administrator\projects\RFIDSchemaTools\RFIDKeybWedge\RFIDKeybWedge\obj\x86\Debug\RFIDKeybWedge.NotificationIcon.resources
 C:\Users\Administrator\projects\RFIDSchemaTools\RFIDKeybWedge\RFIDKeybWedge\obj\x86\Debug\RFIDKeybWedge.csproj.GenerateResource.Cache
 C:\Users\Administrator\projects\RFIDSchemaTools\RFIDKeybWedge\RFIDKeybWedge\obj\x86\Debug\RFIDKeybWedge.exe
 C:\Users\Administrator\projects\RFIDSchemaTools\RFIDKeybWedge\RFIDKeybWedge\obj\x86\Debug\RFIDKeybWedge.pdb
+<<<<<<< HEAD
 C:\Users\Administrator\projects\RFIDSchemaTools\RFIDKeybWedge\RFIDKeybWedge\bin\Debug\RFIDKeybWedge.exe
 C:\Users\Administrator\projects\RFIDSchemaTools\RFIDKeybWedge\RFIDKeybWedge\bin\Debug\RFIDKeybWedge.pdb
 C:\Users\Administrator\projects\RFIDSchemaTools\RFIDKeybWedge\RFIDKeybWedge\bin\Debug\GemCard.dll
 C:\Users\Administrator\projects\RFIDSchemaTools\RFIDKeybWedge\RFIDKeybWedge\bin\Debug\Interop.GemCardExLib.dll
 C:\Users\Administrator\projects\RFIDSchemaTools\RFIDKeybWedge\RFIDKeybWedge\bin\Debug\Interop.SCARDSSPLib.dll
+=======
+>>>>>>> 6ab9a8f50ade6b7b78f276420810c02a94bda043
