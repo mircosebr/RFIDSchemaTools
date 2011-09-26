@@ -47,17 +47,14 @@ namespace RFIDKeybWedge.Schema
 				device.connect(this.reader);
 			}
 			if(!device.connected()){
-				return null;
+				return " Device not connected!";
 			}
-			/*if(!device.connect(this.reader))
-			{
-				return null;
-			}
-			*/
+		
 			DeviceQuery query = device.select();
+			
 			if(!query.authenticate(new byte[6]{0xA0, 0xA1, 0xA2, 0xA3, 0xA4, 0xA5}, 0x08))
 			{
-				return null;
+				return "Authentication failed";
 			}
 			byte[] read = query.readBlock(0x08);
 			

@@ -34,7 +34,10 @@
       <HintPath>..\..\GemCard.dll</HintPath>
     </Reference>
     <Reference Include="LS8000CommsLib">
-      <HintPath>..\..\..\..\..\Documents\LS8000CommsLib\bin\Debug\LS8000CommsLib.dll</HintPath>
+      <HintPath>..\..\LS8000CommsLib\obj\x86\Debug\LS8000CommsLib.dll</HintPath>
+    </Reference>
+    <Reference Include="MasterRD">
+      <HintPath>MasterRD.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core">
@@ -52,6 +55,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Comms.cs" />
     <Compile Include="Devices\ACR122.cs" />
     <Compile Include="DeviceQuery.cs" />
     <Compile Include="Devices\ACR122_Sim.cs" />
@@ -73,6 +77,7 @@
     <EmbeddedResource Include="NotificationIcon.resx">
       <DependentUpon>NotificationIcon.cs</DependentUpon>
     </EmbeddedResource>
+    <None Include="LS8000CommsLib.csproj" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Devices" />

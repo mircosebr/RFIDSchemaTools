@@ -55,43 +55,30 @@ namespace LS8000CommsLib
 			                                    char  model, 
 			                                    ref ushort pTagType);
 			
-		[DllImport(@"MasterRD.dll")]
+		[DllImport("MasterRD.dll")]
 		public static extern int rf_anticoll(ushort icdev, 
 			                                     char  bcnt, 
-			                                     [In] [Out] IntPtr pSnr,
-			                                     out byte pLen);
-		
-		/*[DllImport(@"MasterRD.dll", CharSet=CharSet.Unicode)]
-		public static extern int rf_anticoll(ushort icdev, 
-			                                     char  bcnt, 
-			                                     [MarshalAs(UnmanagedType.LPStr)]StringBuilder pSnr,
-			                                     out byte pLen);*/
+			                                     ref StringBuilder pSnr,
+			                                     out char pLen);
 			
-			
-			                            
-		/*[DllImport("MasterRD.dll")]
-		public static extern int rf_select(ushort icdev,
-			                                   string pSnr,
-			                                   byte snrLen,
-			                                   ref StringBuilder pSize);*/
 		[DllImport("MasterRD.dll")]
 		public static extern int rf_select(ushort icdev,
-		                                   byte[] pSnr,
-			                                   byte snrLen,
+			                                   string pSnr,
+			                                   char  snrLen,
 			                                   ref StringBuilder pSize);
 			
 		[DllImport("MasterRD.dll")]
 		public static extern int rf_M1_authentication2(ushort icdev, 
-			                                               byte  model, 
-			                                               byte  block, 
-			                                               byte[] pKey);
+			                                               char  model, 
+			                                               char  block, 
+			                                               string pKey);
 
 			
 		[DllImport("MasterRD.dll")]
 		public static extern int rf_M1_read (ushort icdev, 
-			                                     byte  block, 
-			                                     [In] [Out] IntPtr pData,
-			                                     out byte pLen);
+			                                     char  block, 
+			                                     ref StringBuilder pData, 
+			                                     out char pLen);
 
 			
 		[DllImport("MasterRD.dll")]

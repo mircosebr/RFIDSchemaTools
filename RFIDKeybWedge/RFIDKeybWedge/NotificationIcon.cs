@@ -211,7 +211,7 @@ namespace RFIDKeybWedge
 				if(connectedToReader()){
 					string cardNo = schema.readCard();
 					//SendKeys.SendWait(cardNo);
-					Debug.WriteLine(cardNo);
+					Debug.WriteLine("NotificationIcon:: " + cardNo);
 					System.Threading.Thread.Sleep(1000);
 				}
 			}
