@@ -46,3 +46,5 @@ C:\Users\Administrator\projects\RFIDSchemaTools\RFIDKeybWedge\RFIDKeybWedge\obj\
 C:\Users\Administrator\projects\RFIDSchemaTools\RFIDKeybWedge\RFIDKeybWedge\obj\x86\Debug\RFIDKeybWedge.csproj.GenerateResource.Cache
 C:\Users\Administrator\projects\RFIDSchemaTools\RFIDKeybWedge\RFIDKeybWedge\obj\x86\Debug\RFIDKeybWedge.exe
 C:\Users\Administrator\projects\RFIDSchemaTools\RFIDKeybWedge\RFIDKeybWedge\obj\x86\Debug\RFIDKeybWedge.pdb
+C:\Users\Administrator\projects\RFIDSchemaTools\RFIDKeybWedge\RFIDKeybWedge\bin\Debug\LS8000CommsLib.dll
+C:\Users\Administrator\projects\RFIDSchemaTools\RFIDKeybWedge\RFIDKeybWedge\bin\Debug\LS8000CommsLib.pdb
