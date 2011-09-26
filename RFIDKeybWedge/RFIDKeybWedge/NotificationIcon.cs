@@ -14,7 +14,7 @@ using System.Windows.Forms;
 using Microsoft.Win32;
 using RFIDKeybWedge.Devices;
 using RFIDKeybWedge.Schema;
-
+using System.Reflection;
 namespace RFIDKeybWedge
 {
 	public sealed class NotificationIcon
@@ -55,6 +55,8 @@ namespace RFIDKeybWedge
 			notificationMenu = new ContextMenu(InitializeMenu());
 			
 			notifyIcon.DoubleClick += IconDoubleClick;
+			notifyIcon.Click += new EventHandler(IconSingleClick);
+			
 			System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(NotificationIcon));
 			notifyIcon.Icon = (Icon)resources.GetObject("$this.Icon");
 			notifyIcon.ContextMenu = notificationMenu;
@@ -153,6 +155,10 @@ namespace RFIDKeybWedge
 		{
 			MessageBox.Show("RFID Keyboard Wedge");
 		}
+			
+		private void IconSingleClick(object sender, EventArgs e) {
+    }
+
 		
 		private void menuSerialConfigClick(object sender, EventArgs e) {
 			if (serialConfig == null)

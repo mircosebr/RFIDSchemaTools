@@ -1,11 +1,11 @@
+C:\Users\Administrator\projects\RFIDSchemaTools\RFIDKeybWedge\RFIDKeybWedge\obj\x86\Release\ResolveAssemblyReference.cache
+C:\Users\Administrator\projects\RFIDSchemaTools\RFIDKeybWedge\RFIDKeybWedge\obj\x86\Release\RFIDKeybWedge.frmSerial.resources
+C:\Users\Administrator\projects\RFIDSchemaTools\RFIDKeybWedge\RFIDKeybWedge\obj\x86\Release\RFIDKeybWedge.NotificationIcon.resources
+C:\Users\Administrator\projects\RFIDSchemaTools\RFIDKeybWedge\RFIDKeybWedge\obj\x86\Release\RFIDKeybWedge.csproj.GenerateResource.Cache
 C:\Users\Administrator\projects\RFIDSchemaTools\RFIDKeybWedge\RFIDKeybWedge\bin\Release\RFIDKeybWedge.exe
 C:\Users\Administrator\projects\RFIDSchemaTools\RFIDKeybWedge\RFIDKeybWedge\bin\Release\GemCard.dll
 C:\Users\Administrator\projects\RFIDSchemaTools\RFIDKeybWedge\RFIDKeybWedge\bin\Release\LS8000CommsLib.dll
 C:\Users\Administrator\projects\RFIDSchemaTools\RFIDKeybWedge\RFIDKeybWedge\bin\Release\Interop.GemCardExLib.dll
 C:\Users\Administrator\projects\RFIDSchemaTools\RFIDKeybWedge\RFIDKeybWedge\bin\Release\Interop.SCARDSSPLib.dll
 C:\Users\Administrator\projects\RFIDSchemaTools\RFIDKeybWedge\RFIDKeybWedge\bin\Release\LS8000CommsLib.pdb
-C:\Users\Administrator\projects\RFIDSchemaTools\RFIDKeybWedge\RFIDKeybWedge\obj\x86\Release\ResolveAssemblyReference.cache
-C:\Users\Administrator\projects\RFIDSchemaTools\RFIDKeybWedge\RFIDKeybWedge\obj\x86\Release\RFIDKeybWedge.frmSerial.resources
-C:\Users\Administrator\projects\RFIDSchemaTools\RFIDKeybWedge\RFIDKeybWedge\obj\x86\Release\RFIDKeybWedge.NotificationIcon.resources
-C:\Users\Administrator\projects\RFIDSchemaTools\RFIDKeybWedge\RFIDKeybWedge\obj\x86\Release\RFIDKeybWedge.csproj.GenerateResource.Cache
 C:\Users\Administrator\projects\RFIDSchemaTools\RFIDKeybWedge\RFIDKeybWedge\obj\x86\Release\RFIDKeybWedge.exe

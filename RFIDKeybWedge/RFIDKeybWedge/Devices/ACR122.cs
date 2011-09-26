@@ -158,12 +158,21 @@ namespace RFIDKeybWedge.Devices
 				//Make the request
 				byte[] d1 = new byte[9] {  0xD4, 0x60, 0x01, 0x01, 0x20, 0x23, 0x11, 0x04, 0x10};
 				APDUCommand a1 = new APDUCommand( 0xFF, 0x00, 0x00, 0x00, d1 ,0x09);
-				APDUResponse r1 = this.iCard.Transmit(a1);
-				
+				APDUResponse r1;
+				try{
+					r1 = this.iCard.Transmit(a1);
+				}catch(System.Exception){
+					return;
+				}
 				//Retrieve the result
 				APDUCommand a2 = new APDUCommand( 0XFF, 0xC0, 0x00, 0x00, null, r1.SW2);
-				APDUResponse r2 = this.iCard.Transmit(a2);
-				
+				APDUResponse r2;
+				try{
+					
+					r2 = this.iCard.Transmit(a2);
+				}catch(System.Exception){
+					return;
+				}
 				int data_len = r2.Data.Length;
 				
 				
@@ -198,15 +207,21 @@ namespace RFIDKeybWedge.Devices
 					card_uid[0], card_uid[1], card_uid[2], card_uid[3]
 				};
 				APDUCommand a1 = new APDUCommand( 0xFF, 0x00, 0x00, 0x00, d1, 0x0F);
-				APDUResponse r1 = this.iCard.Transmit(a1);
-				
+				try{
+					APDUResponse r1 = this.iCard.Transmit(a1);
+				}catch(System.Exception){
+					return false;
+				}
 				//Status code 61 05 is valid
 				
 				
 				//Read response
-				APDUCommand a2 = new APDUCommand( 0xFF, 0xC0, 0x00, 0x00, null, 0x05);
-				APDUResponse r2 = this.iCard.Transmit(a2);
-				
+				APDUCommand a2 = new APDUCommand( 0xFF, 0xC0 , 0x00, 0x00, null, 0x05);
+				try{
+					APDUResponse r2 = this.iCard.Transmit(a2);
+				}catch(System.Exception){
+					return false;
+				}
 				//Status code 90 00 is valid, else error
 				return true;
 			}
@@ -215,13 +230,22 @@ namespace RFIDKeybWedge.Devices
 			{
 				byte[] d1 = new Byte[] { 0xD4, 0x40, 0x01, 0x30, block };
 				APDUCommand a1 = new APDUCommand( 0xFF, 0x00, 0x00, 0x00, d1, 0x05);
-				APDUResponse r1 = this.iCard.Transmit(a1);
-				
+				try{
+					APDUResponse r1 = this.iCard.Transmit(a1);
+				}catch(System.Exception){
+					return null;
+				}
 				//Status code 61 15
 				
 				APDUCommand a2 = new APDUCommand( 0xFF, 0xC0, 0x00, 0x00, null, 0x15);
-				APDUResponse r2 = this.iCard.Transmit(a2);
+				APDUResponse r2;
+				try{
+					
 				
+				r2 = this.iCard.Transmit(a2);
+				}catch(System.Exception){
+					return null;
+				}
 				//Status Code ??
 				
 				return r2.Data;

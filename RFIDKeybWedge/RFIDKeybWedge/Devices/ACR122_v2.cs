@@ -76,7 +76,12 @@ namespace RFIDKeybWedge.Devices
 		public ACR122_v2()
 		{
 			_connected = false;
-			iCard = new CardNative();
+			try{
+				iCard = new CardNative();
+			}catch(System.Exception){
+				Debug.WriteLine("ACR112_v2:: CardNative() Failed");
+				
+			}
 		}
 		
 		public string getName()
@@ -85,7 +90,12 @@ namespace RFIDKeybWedge.Devices
 		}
 		
 		public string[] devices(){
-			return this.iCard.ListReaders();
+			try{
+				return this.iCard.ListReaders();
+			}catch(System.Exception){
+				Debug.WriteLine("ACR112_v2:: ListReaders() Failed");
+				return null;
+			}
 		}
 		
 		public DeviceQuery select()
@@ -102,8 +112,17 @@ namespace RFIDKeybWedge.Devices
 		public bool connect(string device)
 		{		
 			
-			String[] readers = this.iCard.ListReaders();
+			String[] readers;
+			try{
+				 readers = this.iCard.ListReaders();
+			}catch(System.Exception){
+				Debug.WriteLine("ACR112_v2:: ListReaders Failed");
+				readers = null;
+			}
+				
+			
 			if(readers == null){
+				Debug.WriteLine("ACR112_v2:: No readers found!");
 				return false;
 			}
 	
@@ -111,6 +130,7 @@ namespace RFIDKeybWedge.Devices
 				try{
 					this.iCard.Connect(device,SHARE.Direct,PROTOCOL.T0orT1);
 				}catch(System.Exception){
+					Debug.WriteLine("ACR112_v2:: Connection Error!!");
 					return false;;
 				}
 				_connected = true;
@@ -160,7 +180,7 @@ namespace RFIDKeybWedge.Devices
 				try{
 					APDUResponse rr0 = this.iCard.Transmit(cc0);
 				}catch(System.Exception){
-					;
+					Debug.WriteLine("ACR112_v2:: Transmit Error, " + cc0.ToString());
 				}
 			}		
 			
@@ -171,6 +191,7 @@ namespace RFIDKeybWedge.Devices
 				try{
 					APDUResponse rr1 = this.iCard.Transmit(cc1);
 				}catch(System.Exception){
+					Debug.WriteLine("ACR112_v2:: Transmit Error, " + cc1.ToString());
 					return false;
 				}
 				//Authenticate
@@ -178,6 +199,7 @@ namespace RFIDKeybWedge.Devices
 				try{
 					APDUResponse rr2 = this.iCard.Transmit(cc2);
 				}catch(System.Exception){
+					Debug.WriteLine("ACR112_v2:: Transmit Error, " + cc2.ToString());
 					return false;
 				}
 				return true;
@@ -191,6 +213,7 @@ namespace RFIDKeybWedge.Devices
 					APDUResponse rr3 = this.iCard.Transmit(cc3);
 					return rr3.Data;
 				}catch(System.Exception){
+					Debug.WriteLine("ACR112_v2:: Transmit Error, " + cc3.ToString());
 					return null;
 				}
 				return null;
@@ -202,8 +225,6 @@ namespace RFIDKeybWedge.Devices
 			
 			public byte[] uid(){ return _uid; }
 		}
-		
-		
 	}
 }
 

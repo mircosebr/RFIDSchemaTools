@@ -86,7 +86,7 @@ namespace RFIDKeybWedge.Schema
 			SendKeys.SendWait("72{ENTER}");
 			System.Threading.Thread.Sleep(1000);
 			SendKeys.SendWait(new string(cardNo));
-			SendKeys.SendWait("{ENTER}");
+			//SendKeys.SendWait("{ENTER}");
 			return new string(cardNo);
 		}
 	}
