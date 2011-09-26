@@ -80,7 +80,8 @@ namespace RFIDKeybWedge.Schema
 			val = val.Substring(6,8);
 			char[] cardNo = new char[8];
 			Array.Copy(val.ToCharArray(),0,cardNo,0,8);
-
+	
+	
 			device.disconnect();
 			SendKeys.SendWait("72{ENTER}");
 			System.Threading.Thread.Sleep(1000);

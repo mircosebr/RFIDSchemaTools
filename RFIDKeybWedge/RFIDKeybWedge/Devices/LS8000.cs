@@ -32,6 +32,7 @@ namespace RFIDKeybWedge.Devices
 		private static string _key = "a0a1a2a3a4a5";
 		private static IntPtr serial, data;
 		private static String serialNumber = "";
+		private static byte[] carddata = new byte[16];
 		
 		public LS8000()
 		{
@@ -192,7 +193,7 @@ namespace RFIDKeybWedge.Devices
 			
 				byte[] serialarray = new byte[4];
 				byte[] serBytes = new byte[serialarray.Length]; 
-				byte[] carddata = new byte[16];
+				
 				int sersize = Marshal.SizeOf(byte.MaxValue) * serialarray.Length;
 				int datasize = Marshal.SizeOf(byte.MaxValue) * carddata.Length;
 				
@@ -254,12 +255,15 @@ namespace RFIDKeybWedge.Devices
 			
 			public byte[] readBlock(byte block)
 			{
-				StringBuilder carddata = new StringBuilder();
+				//StringBuilder carddata = new StringBuilder();
 				byte datalength;
 				
 				if (Comms.rf_M1_read(_icDev, block, data, out datalength) != 0) {
 					Debug.WriteLine("LS8000:: Could not read card!");
 				}
+				
+				Marshal.Copy(data, carddata, 0, carddata.Length);
+				Marshal.FreeHGlobal(data);
 				
 				Debug.WriteLine("LS8000:: Card-data: " + carddata);
 				
@@ -267,7 +271,7 @@ namespace RFIDKeybWedge.Devices
 				Comms.rf_beep(_icDev, '9');
 				Comms.rf_light(_icDev, '2');
 				
-				return new byte[]{};
+				return carddata;
 			}
 			
 		
