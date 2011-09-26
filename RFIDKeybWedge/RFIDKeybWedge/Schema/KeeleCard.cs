@@ -79,7 +79,8 @@ namespace RFIDKeybWedge.Schema
 			char[] arr = val.ToCharArray();
 			Array.Reverse(arr);
 			val = new string(arr);
-			val = val.TrimStart('0');
+			//val = val.TrimStart('0');
+			val = val.Substring(6,8);
 			char[] cardNo = new char[8];
 			Array.Copy(val.ToCharArray(),0,cardNo,0,8);
 

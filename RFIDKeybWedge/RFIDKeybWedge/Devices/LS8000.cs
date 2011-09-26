@@ -134,7 +134,7 @@ namespace RFIDKeybWedge.Devices
 				
 				//MessageBox.Show("Got card","Got card");
 				
-				
+				/*
 				if (Comms.rf_anticoll(_icDev, (char)0x04, serial, out serlength) != 0) {
 					//MessageBox.Show("Could not perform anti collision on card!", "Card Error!",//MessageBoxButtons.OK,//MessageBoxIcon.Error);
 				}
@@ -144,6 +144,7 @@ namespace RFIDKeybWedge.Devices
 				if (Comms.rf_select(_icDev, serial, serlength, ref cardcap) != 0 ) {
 					//MessageBox.Show("Could not activate card!", "Card Error!",//MessageBoxButtons.OK,//MessageBoxIcon.Error);
 				}
+				*/
 					
 			}		
 			public bool authenticate(byte[] key, byte block)
