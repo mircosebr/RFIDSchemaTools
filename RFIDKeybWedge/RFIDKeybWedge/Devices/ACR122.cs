@@ -70,13 +70,12 @@ namespace RFIDKeybWedge.Devices
 		private CardNative iCard;
 		private APDUCommand apduCmd;
 		private APDUResponse apduResp;
-		private bool _connected;
+		private static bool _connected;
 		
 		
 		public ACR122()
 		{
 			_connected = false;
-			iCard = new CardNative();
 		}
 		
 		public string getName()
@@ -100,35 +99,50 @@ namespace RFIDKeybWedge.Devices
 		}
 			
 		public bool connect(string device)
-		{		
+		{	
 			
-			String[] readers = this.iCard.ListReaders();
-			if(readers == null){
+			iCard = new CardNative();
+			
+			String[] readers;
+			
+			try{
+				readers = this.iCard.ListReaders();
+			}catch(System.Exception){
+				Debug.WriteLine("ACR122:: connect, ListReaders() failed");
 				return false;
 			}
-
-			if(!_connected){
-				try{
-					this.iCard.Connect(device,SHARE.Direct,PROTOCOL.T0orT1);
-				}catch(System.Exception){
-					return false;
-				}
-				_connected = true;
+			
+			if(readers == null){
+				Debug.WriteLine("ARC122:: No Devices connected!");
+				return false;
 			}
-				//this.iCard.OnCardInserted += new CardInsertedEventHandler( processCard);
+			
+			bool ready = false;
+				
+			while(!ready){
+				try{
+					this.iCard.Connect(device, SHARE.Shared, PROTOCOL.T0orT1);
+					_connected = true;
+					ready = true;					
+				}catch(System.Exception e){
+					//Debug.WriteLine("ACR112:: ERROR, " + e.Message);
+					Debug.WriteLine("Device not ready");
+					System.Threading.Thread.Sleep(1500);
+				}
+			}
+
+			Debug.WriteLine("ACR122:: Device Connected!");
 			return true;
 		}
-		/*
-		public void processCard(){
-			Debug.WriteLine("Process card");
-			
-		}
-		*/
-		
+	
 		public bool disconnect()
 		{
-
-			this.iCard.Disconnect(DISCONNECT.Leave);
+			APDUCommand c1 = new APDUCommand(0xFF, 0x00, 0x00, 0x00, new byte[]{0xD4, 0x44, 0x01}, 0x03);
+			APDUResponse r1 = iCard.Transmit(c1);
+	
+			APDUCommand c2 = new APDUCommand(0xFF, 0xC0, 0x00, 0x00, null, 0x05);
+			APDUResponse r2 = iCard.Transmit(c2);
+			this.iCard.Disconnect(DISCONNECT.Reset);
 			_connected = false;
 			return true;
 		}
@@ -246,7 +260,9 @@ namespace RFIDKeybWedge.Devices
 				}catch(System.Exception){
 					return null;
 				}
-				//Status Code ??
+				
+				//Status Code ??			
+				_connected = false;
 				
 				return r2.Data;
 			}

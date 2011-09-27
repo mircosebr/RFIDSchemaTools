@@ -42,13 +42,14 @@ namespace RFIDKeybWedge.Schema
 		
 		
 		public string readCard()
-		{
+		{	
 			if(!device.connected()){
-				device.connect(this.reader);
+				bool success = device.connect(this.reader);
+				if(!success){
+					return "Device not connected";
+				}
 			}
-			if(!device.connected()){
-				return " Device not connected!";
-			}
+			
 		
 			DeviceQuery query = device.select();
 			
@@ -81,8 +82,8 @@ namespace RFIDKeybWedge.Schema
 			char[] cardNo = new char[8];
 			Array.Copy(val.ToCharArray(),0,cardNo,0,8);
 	
-	
 			device.disconnect();
+			
 			SendKeys.SendWait("72{ENTER}");
 			System.Threading.Thread.Sleep(1000);
 			SendKeys.SendWait(new string(cardNo));
